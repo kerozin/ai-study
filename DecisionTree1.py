@@ -1,3 +1,4 @@
+import os
 import pickle
 import graphviz
 from sklearn import tree
@@ -8,6 +9,8 @@ from helpers import MakeResultsDir
 maxError = 0.01
 
 ResultsDir = MakeResultsDir(__file__)
+ResultFile = os.path.join(ResultsDir, "results")
+rf = open(ResultFile, "a")
 
 def FindErrors(yp, y):
     err = 0
@@ -36,6 +39,7 @@ while err > maxError:
     err = FindErrors(yp, y) / len(y)
 
 print("Accuracy %f reached for minimum weight fraction leaf: %f" % (err, minWeightFractionLeaf))
+rf.write("Accuracy %f reached for minimum weight fraction leaf: %f" % (err, minWeightFractionLeaf))
 
 """
 dot_data = tree.export_graphviz(clf, out_file=None)
@@ -48,3 +52,5 @@ ff=open("my_ai", "wb")
 ff.write(s)
 ff.close()
 """
+
+rf.close()
